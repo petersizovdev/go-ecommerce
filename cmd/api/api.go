@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/petersizovdev/go-ecommerce/service/product"
 	"github.com/petersizovdev/go-ecommerce/service/user"
 )
 
@@ -26,9 +27,13 @@ func (s *APIServer) Run() error{
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
 
 	userStore := user.NewStore(s.db)
-
 	userHandler := user.NewHandler(userStore)
 	userHandler.RegisterRoutes(subrouter)
+
+
+	productStore := product.NewStore(s.db)
+	productHandler := product.NewHandler(productStore)
+	productHandler.RegisterRoutes(subrouter)
 
 	log.Println("Server listenin on", s.addr)
 
