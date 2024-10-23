@@ -1,12 +1,12 @@
 package user
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"bytes"
-	
 
 	"github.com/gorilla/mux"
 	"github.com/petersizovdev/go-ecommerce/types"
@@ -21,8 +21,8 @@ func TestUserServiceHandler (t *testing.T) {
 		payload := types.RegisterUserPayload{
 			FirstName: "user",
 			LastName: "123",
-			Email: "",
-			Password: "qwe",
+			Email: "test@gmail.com",
+			Password: "test",
 		}
 		marshaled, _ := json.Marshal(payload)
 		req, err := http.NewRequest(http.MethodPost, "/register", bytes.NewBuffer(marshaled))
@@ -37,8 +37,8 @@ func TestUserServiceHandler (t *testing.T) {
 
 		router.ServeHTTP(rr, req)
 
-		if rr.Code != http.StatusBadRequest {
-			t.Errorf("Expected status code %d, got %d", http.StatusBadRequest, rr.Code)
+		if rr.Code != http.StatusCreated {
+			t.Errorf("Expected status code %d, got %d", http.StatusCreated, rr.Code)
 		}
 	})
 }
@@ -48,7 +48,7 @@ type mockUserStore struct {
 }
 
 func (m *mockUserStore) GetUserByEmail(email string) (*types.User, error) {
-	return nil, nil
+	return nil, fmt.Errorf("User not found")
 }
 
 func (m *mockUserStore) GetUserByID(id int) (*types.User, error) {
