@@ -19,7 +19,7 @@ type Product struct {
 	Image string `json:"image"`
 	Price float64 `json:"price"`
 	Quantity int `json:"quantity"`
-	CreatedAt int `json:"createdAt"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 type User struct {

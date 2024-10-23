@@ -28,5 +28,5 @@ func (h *Handler) handleCreatedProduct(w http.ResponseWriter, r *http.Request){
 }
 
 func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.Handle("/products", http.HandlerFunc(h.handleCreatedProduct)).Methods(http.MethodDelete)
+	router.Handle("/products", http.HandlerFunc(h.handleCreatedProduct)).Methods(http.MethodGet)
 }
